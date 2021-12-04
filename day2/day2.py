@@ -1,3 +1,5 @@
+
+
 def pos_by_depth(input_list):
     horizontal = 0
     depth = 0
@@ -30,12 +32,12 @@ def pos_by_depth_complex(input_list):
     return horizontal * depth
 
 
-file = "input.txt"
+file = "day2input.txt"
 with open(file) as f:
     lines = f.readlines()
 inputlist = []
 for line in lines:
-    inputlist.append(line.strip())\
+    inputlist.append(line.strip())
 
 part1 = pos_by_depth(inputlist)
 print(part1)

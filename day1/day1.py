@@ -10,6 +10,7 @@ def find_increases(depth_list):
             increase_count += 1
     return increase_count
 
+
 def find_3way_increases(d_l):
     """Find increases in 3 number runs - AOC day1 part2."""
     increase_count = 0
@@ -20,7 +21,8 @@ def find_3way_increases(d_l):
             increase_count += 1
     return increase_count
 
-file = "day1input.txt"
+
+file = ROOT_DIR + "/day1/day1input.txt"
 with open(file) as f:
     lines = f.readlines()
 day1inputlist = []
