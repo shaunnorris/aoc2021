@@ -1,4 +1,4 @@
-from day10 import *
+from dayXYZ import *
 
 example_file = "test_dayXYZinput.txt"
 example_list = load_file(example_file)
