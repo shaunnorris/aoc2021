@@ -1,35 +1,59 @@
-## After several hours of struggling, eventually resorted to
-## reading the Reddit with this nice solution.
+def load_file(filename):
+    matrix = []
+    with open(filename) as f:
+        linelist = f.read().splitlines()
+    for line in linelist:
+        newrow = []
+        for char in line:
+            newrow.append(int(char))
+        matrix.append(newrow)
+    return matrix
 
-import numpy as np
-import heapq
 
-map = np.genfromtxt("day15input.txt", dtype=int, delimiter=1)
-height, width = map.shape
+def build_graph(matrix):
+    graph = {}
+    for x in range(len(matrix)):
+        for y in range(len(matrix[0])):
+            graph[(x,y)] = {}
+            for offset in [(-1,0),(1,0),(0,-1),(0,1)]:
+                target = (offset[0] + x, offset[1] + y)
+                if target[0] >=0 and target[0] < len(matrix):
+                    if target[1] >=0 and target[1] < len(matrix[0]):
+                        graph[(x,y)][target] = matrix[target[0]][target[1]]
 
-def neighbors(x, y, scale):
-    out = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
-    return [(a, b) for a, b in out if 0 <= a < width*scale and 0 <= b < height*scale]
+    return graph
 
-def cost(x, y):
-    c = map[y % height, x % width]
-    c = (c + x // width + y // height)
-    c = 1 + (c-1) % 9
-    return c
 
-def dijkstra(scale):
-    distances = {(0,0):0}
-    pq = [(0, (0,0))]
-    while len(pq) > 0:
-        total, (x,y) = heapq.heappop(pq)
-        if total <= distances[(x, y)]:
-            for n in neighbors(x, y, scale):
-                distance = total + cost(*n)
-                if distance < distances.get(n, 1e308):
-                    distances[n] = distance
-                    heapq.heappush(pq, (distance, n))
-
-    return distances[(width*scale-1, height*scale-1)]
-
-print("Part 1", dijkstra(1))
-print("Part 2", dijkstra(5))
+def find_path(graph):
+    shortest_path = []
+    visited = []
+    shortest_path.append([(0,0)])
+    distances = {}
+    for key in graph:
+        distances[key] = float('inf')
+    distances[(0,0)] = 0
+    print(distances)
+    workqueue = []
+    workqueue.append((0,0))
+    while distances[(2,2)] == float('inf'):
+        for vertex in workqueue:
+            print("-------------")
+            print("vertex",vertex)
+            visited.append(vertex)
+            print("visited",visited)
+            print("distances",distances)
+            new_vertices = graph[vertex]
+            current_distance = distances[vertex]
+            shortest = ((0,0),float('inf'))
+            for new_vertex, distance in new_vertices.items():
+                print("newvertex,distance",new_vertex, distance)
+                if new_vertex not in visited:
+                    if distance < shortest[1]:
+                        shortest = (new_vertex, distance)
+                    if distance + current_distance < distances[new_vertex]:
+                        distances[new_vertex] = distance + current_distance
+                        workqueue.append(new_vertex)
+            shortest_path.append((shortest))
+            workqueue.pop()
+    print(shortest_path)
+    return False
