@@ -68,8 +68,3 @@ testsolve = play_game(4, 8)
 print("testsolve",testsolve)
 part1 = play_game(8, 9)
 print("part1:", part1)
-#puzzle_input
-"""
-Player 1 starting position: 8
-Player 2 starting position: 9
-"""
